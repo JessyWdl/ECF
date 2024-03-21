@@ -1,6 +1,7 @@
 package com.jessy.entity;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.jessy.entity.dao.DAOClient;
 import com.jessy.entity.logs.FormatterLogs;
 import com.jessy.entity.logs.Logs;
 import com.jessy.entity.vues.Accueil;
@@ -16,6 +17,8 @@ public class Main {
 
         Accueil accueil = new Accueil();
         accueil.setVisible(true);
+
+
 
         fh = new FileHandler("logReverso.log", true);
         Logs.LOGGER.setUseParentHandlers(false);

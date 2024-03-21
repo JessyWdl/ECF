@@ -1,6 +1,7 @@
 package com.jessy.entity.vues;
 
 import com.jessy.entity.controleurs.ControleurAccueil;
+import com.jessy.entity.controleurs.ControleurFormulaire;
 import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
 
@@ -24,8 +25,7 @@ public class Accueil extends JDialog {
     private JPanel ButtonPanel;
     private JComboBox selectSociete;
 
-    protected static String Flag;
-    protected static String Type;
+    protected static String Flag = null;
     public static Object Value;
     private Object selectedValue = selectSociete.getSelectedItem();
 
@@ -81,19 +81,28 @@ public class Accueil extends JDialog {
         });
         //-----------------------------------------------------------------------------------------------------------
         creerButton.addActionListener(e -> {
-            Type = "CREER";
-            ControleurAccueil.ajouter(Flag);
+            try {
+                ControleurFormulaire.ajouter(Flag);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         modifierButton.addActionListener(e -> {
-            Type = "MODIFIER";
             Value = selectSociete.getSelectedItem();
-            ControleurAccueil.modifier(Flag);
+            try {
+                ControleurFormulaire.modifier(Flag, Value);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
         supprimerButton.addActionListener(e -> {
-            Type = "SUPPRIMER";
             Value = selectSociete.getSelectedItem();
-            ControleurAccueil.supprimer(Flag);
+            try {
+                ControleurFormulaire.supprimer(Flag, Value);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
         selectSociete.addActionListener(new ActionListener() {
             @Override

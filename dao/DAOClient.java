@@ -33,9 +33,7 @@ public class DAOClient {
             }
         } catch (SQLException e) {
             LOGGER.info("Database closed");
-        } catch (MonException e) {
-            throw new RuntimeException(e);
-        } finally {
+        }finally {
             if (stmt != null) {
                 stmt.close();
             }
@@ -43,18 +41,17 @@ public class DAOClient {
         return clientArrayList;
     }
 
-    public static ArrayList<Client> findByName(Object where) throws Exception {
+    public static Client findByName(Object where) throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
         String query = "select * from client where RaisonSociale=?";
-        ArrayList<Client> clientArrayList = new ArrayList<>();
-
+        Client client = new Client();
         try {
             stmt = con.prepareStatement(query);
             stmt.setObject(1, where);
             ResultSet rs = stmt.executeQuery();
+
             while (rs.next()) {
-                Client client = new Client();
                 client.setID(rs.getInt("ID"));
                 client.setRaisonSociale(rs.getString("RaisonSociale"));
                 client.setNumRue(rs.getString("NumRue"));
@@ -66,8 +63,6 @@ public class DAOClient {
                 client.setChiffreAffaire(rs.getDouble("ChiffreAffaire"));
                 client.setNbEmployes(rs.getInt("NbEmployes"));
                 client.setCommentaire(rs.getString("Commentaire"));
-
-                clientArrayList.add(client);
             }
         } catch (SQLException e) {
             LOGGER.info("Database closed");
@@ -78,7 +73,7 @@ public class DAOClient {
                 stmt.close();
             }
         }
-        return clientArrayList;
+        return client;
     }
 
     public static Client create(Client client) throws Exception {
@@ -111,12 +106,14 @@ public class DAOClient {
         return client;
     }
 
-    public Client update(Client client, String where) throws Exception {
+    public static Client update(Object where) throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
+
         String query = "UPDATE `client` SET `Raison sociale` = ?, `NumRue` = ?, `NomRue` = ? `CodePostal` = ?," +
                 "`Ville` = ?, `Tel` = ?, `Email` = ?, `ChiffreAffaire` = ?, `NbEmployes` = ?, `Commentaire`= ? " +
                 "WHERE `client`.`RaisonSociale` = ?";
+        Client client = new Client();
         try {
             stmt = con.prepareStatement(query);
             stmt.setString(1, client.getRaisonSociale());
@@ -129,6 +126,7 @@ public class DAOClient {
             stmt.setDouble(8,client.getChiffreAffaire());
             stmt.setInt(9, client.getNbEmployes());
             stmt.setString(10, client.getCommentaire());
+            stmt.setObject(11, where);
 
             stmt.executeUpdate();
         } catch (SQLException e) {

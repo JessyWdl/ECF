@@ -34,11 +34,6 @@ public class Prospect extends Societe{
         if (DateProspect == null){
             throw new MonException("Date invalide");
         }
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
-        String text = date.format(formatter);
-        LocalDate parsedDate = LocalDate.parse(text, formatter);
-
         this.DateProspect = DateProspect;
     }
     public void setProspectInteresse(String ProspectInteresse) throws MonException {

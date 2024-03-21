@@ -1,14 +1,11 @@
 package com.jessy.entity.vues;
 
-import com.jessy.entity.controleurs.ControleurFormulaire;
+import com.jessy.entity.dao.DAOClient;
 import com.jessy.entity.entites.Client;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.Objects;
-
-import static com.jessy.entity.vues.Accueil.Flag;
 
 public class Formulaire extends JDialog {
     private JPanel contentPane;
@@ -32,13 +29,16 @@ public class Formulaire extends JDialog {
     private JTextField NumRue;
     private JTextField NomRue;
     private JTextField Ville;
+    private JTextField ID;
 
-    public Formulaire(){
+    protected static String Type;
+
+    public Formulaire(String Flag, String Type) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 600);
+        setSize(400, 700);
         setLocationRelativeTo(null);
 
         ButtonGroup table = new ButtonGroup();
@@ -46,31 +46,35 @@ public class Formulaire extends JDialog {
         table.add(nonRadioButton);
 
         ClientProspectLabel.setText(Flag);
-        AjouterModifierSupprimerLabel.setText(Accueil.Type);
+        AjouterModifierSupprimerLabel.setText(Type);
+
+//        LocalDate date = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+//        String text = date.format(formatter);
+//        LocalDate parsedDate = LocalDate.parse(text, formatter);
 
 
-        if (Objects.equals(Flag, "CLIENT")) {
+        if (Objects.equals(Accueil.Flag, "CLIENT")) {
             ChiffreAffaireDateProspect.setText("Chiffre D'affaire");
             ProspectInteret.setVisible(false);
             ouiRadioButton.setVisible(false);
             nonRadioButton.setVisible(false);
-        } else if (Objects.equals(Flag, "PROSPECT")) {
+        } else if (Objects.equals(Accueil.Flag, "PROSPECT")) {
             ChiffreAffaireDateProspect.setText("Date Prospect");
             NbEmployers.setVisible(false);
             NbEmployes.setVisible(false);
         }
+
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
-
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         });
-
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -78,14 +82,30 @@ public class Formulaire extends JDialog {
                 onCancel();
             }
         });
-
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        confirmerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(Objects.equals(Type, "CREER")){
+
+                } else if (Objects.equals(Type, "MODIFIER")) {
+                    try {
+                        DAOClient.update(Accueil.Value);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }else if(Objects.equals(Type, "SUPPRIMER")){
+
+                }
+            }
+        });
     }
+
     private void onOK() {
         // add your code here
         dispose();
@@ -94,23 +114,19 @@ public class Formulaire extends JDialog {
         // add your code here if necessary
         dispose();
     }
-    public void Modification() throws Exception {
-        if (Objects.equals(Accueil.Type, "MODIFIER")) {
-            ArrayList<Client> clientArrayList = ControleurFormulaire.MODIFIER();
-            for (Client client : clientArrayList) {
-                RaisonSociale.setText(client.getRaisonSociale());
-                NumRue.setText(client.getNumRue());
-                NomRue.setText(client.getNumRue());
-                CodePostal.setText(client.getNumRue());
-                Ville.setText(client.getVille());
-                Tel.setText(client.getTel());
-                Email.setText(client.getEmail());
-                double chiffreAffaire= client.getChiffreAffaire();
-                ChiffreDate.setText(String.valueOf(chiffreAffaire));
-                int nbEmployes = client.getNbEmployes();
-                NbEmployes.setText(String.valueOf(nbEmployes));
-                Commentaire.setText(client.getCommentaire());
-            }
-        }
+
+    public void fillForm(Client client) {
+        ID.setText(String.valueOf(client.getID()));
+        ID.setEnabled(false);
+        RaisonSociale.setText(client.getRaisonSociale());
+        NumRue.setText(client.getNumRue());
+        NomRue.setText(client.getNomRue());
+        CodePostal.setText(client.getCodePostal());
+        Ville.setText(client.getVille());
+        Tel.setText(client.getTel());
+        Email.setText(client.getEmail());
+        ChiffreDate.setText(String.valueOf(client.getChiffreAffaire()));
+        NbEmployes.setText(String.valueOf(client.getNbEmployes()));
+        Commentaire.setText(client.getCommentaire());
     }
 }
