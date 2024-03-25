@@ -109,9 +109,9 @@ public class DAOClient {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
 
-        String query = "UPDATE client SET Raison sociale = ?, NumRue = ?, NomRue = ?, CodePostal` = ?," +
+        String query = "UPDATE client SET RaisonSociale = ?, NumRue = ?, NomRue = ?, CodePostal = ?," +
                 "Ville = ?, Tel = ?, Email = ?, ChiffreAffaire = ?, NbEmployes = ?, Commentaire= ? " +
-                "WHERE ID =" + where;
+                "WHERE ID = ?";
         try {
             stmt = con.prepareStatement(query);
             stmt.setString(1, client.getRaisonSociale());
@@ -124,10 +124,11 @@ public class DAOClient {
             stmt.setDouble(8,client.getChiffreAffaire());
             stmt.setInt(9, client.getNbEmployes());
             stmt.setString(10, client.getCommentaire());
+            stmt.setInt(11, where);
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.info("Database closed");
+            e.printStackTrace();
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -136,12 +137,13 @@ public class DAOClient {
         return client;
     }
 
-    public static void delete(Connection con, String where) throws Exception {
+    public static void delete(int where) throws Exception {
+        Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
-        String query = "Delete from client where RaisonSociale=?";
+        String query = "Delete from client where ID=?";
         try {
             stmt = con.prepareStatement(query);
-            stmt.setString(1, where);
+            stmt.setInt(1, where);
 
             stmt.executeUpdate();
         } catch (SQLException e) {

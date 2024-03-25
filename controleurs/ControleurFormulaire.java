@@ -19,9 +19,7 @@ public class ControleurFormulaire {
     public static void ajouter(String Flag) throws Exception {
         Type = "CREER";
         if (Objects.equals(Flag, "CLIENT")) {
-            Client client = new Client();
             Formulaire f = new Formulaire(Flag, Type);
-            f.fillFormClient(client);
             f.setVisible(true);
         } else if (Objects.equals(Flag, "PROSPECT")) {
             ControleurFormulaire cf = new ControleurFormulaire();
@@ -58,11 +56,21 @@ public class ControleurFormulaire {
         }
     }
 
+    public static void CreateFormClient(String RaisonSociale, String NumRue, String NomRue, String CodePostal,
+                                        String Ville, String Tel, String Email, double ChiffreAffaire, int NbEmployes, String Commentaire)
+            throws Exception {
+        Client client = new Client(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, ChiffreAffaire, NbEmployes, Commentaire);
+        DAOClient.create(client);
+    }
+
     public static void UpdateFormClient(int ID, String RaisonSociale, String NumRue, String NomRue, String CodePostal,
                                         String Ville, String Tel, String Email, double ChiffreAffaire, int NbEmployes, String Commentaire)
             throws Exception {
-        Client client = new Client(ID, RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, ChiffreAffaire, NbEmployes, Commentaire);
+        Client client = new Client(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, ChiffreAffaire, NbEmployes, Commentaire);
         DAOClient.update(ID, client);
+    }
+    public static void DeleteFormClient(int ID) throws Exception {
+        DAOClient.delete(ID);
     }
 }
 

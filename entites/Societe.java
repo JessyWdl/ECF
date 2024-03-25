@@ -18,8 +18,7 @@ public class Societe {
     private String Email;
     private String Commentaire;
 
-    public Societe(int ID, String RaisonSociale, String NumRue, String NomRue, String CodePostal, String Ville, String Tel, String Email, String Commentaire) throws MonException {
-        setID(ID);
+    public Societe(String RaisonSociale, String NumRue, String NomRue, String CodePostal, String Ville, String Tel, String Email, String Commentaire) throws MonException {
         setRaisonSociale(RaisonSociale);
         setNumRue(NumRue);
         setNomRue(NomRue);

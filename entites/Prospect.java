@@ -12,9 +12,9 @@ public class Prospect extends Societe{
     private LocalDate DateProspect;
     private String ProspectInteresse;
 
-    public Prospect(int ID, String RaisonSociale, String NumRue, String NomRue, String CodePostal, String Ville,
+    public Prospect(String RaisonSociale, String NumRue, String NomRue, String CodePostal, String Ville,
                     String Tel, String Email, LocalDate DateProspect, String ProspectInteresse, String Commentaire) throws MonException {
-        super(ID, RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, Commentaire);
+        super(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, Commentaire);
         setDateProspect(DateProspect);
         setProspectInteresse(ProspectInteresse);
     }

@@ -109,7 +109,7 @@ public class DAOProspect {
     public static Prospect update(Object where) throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
-        String query = "UPDATE `prospect` SET `Raison sociale` = ?, `NumRue` = ?, `NomRue` = ? `CodePostal` = ?," +
+        String query = "UPDATE `prospect` SET `RaisonSociale` = ?, `NumRue` = ?, `NomRue` = ? `CodePostal` = ?," +
                 "`Ville` = ?, `Tel` = ?, `Email` = ?, `DateProspect` = ?, `ProspectInteresse` = ?, `Commentaire`= ? " +
                 "WHERE `client`.`RaisonSociale` = ?";
         Prospect prospect = new Prospect();
@@ -139,7 +139,7 @@ public class DAOProspect {
 
     public static void delete(Connection con, String where) throws Exception {
         PreparedStatement stmt = null;
-        String query = "Delete from client where RaisonSociale=?";
+        String query = "Delete from prospect where ID=?";
         try {
             stmt = con.prepareStatement(query);
             stmt.setString(1, where);

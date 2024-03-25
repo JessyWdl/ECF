@@ -5,13 +5,12 @@ import com.jessy.entity.dao.DAOProspect;
 import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
 import com.jessy.entity.vues.Accueil;
-import com.jessy.entity.vues.Formulaire;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class ControleurAccueil{
-    public ControleurAccueil() {
+    public static void NewAccueil() {
         Accueil accueil = new Accueil();
         accueil.setVisible(true);
     }

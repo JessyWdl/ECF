@@ -82,6 +82,7 @@ public class Accueil extends JDialog {
         });
         //-----------------------------------------------------------------------------------------------------------
         creerButton.addActionListener(e -> {
+            dispose();
             try {
                 ControleurFormulaire.ajouter(Flag);
             } catch (Exception ex) {
@@ -91,6 +92,7 @@ public class Accueil extends JDialog {
 
         modifierButton.addActionListener(e -> {
             Value = selectSociete.getSelectedItem();
+            dispose();
             try {
                 ControleurFormulaire.modifier(Flag, Value);
             } catch (Exception ex) {
@@ -99,6 +101,7 @@ public class Accueil extends JDialog {
         });
         supprimerButton.addActionListener(e -> {
             Value = selectSociete.getSelectedItem();
+            dispose();
             try {
                 ControleurFormulaire.supprimer(Flag, Value);
             } catch (Exception ex) {

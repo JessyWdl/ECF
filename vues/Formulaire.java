@@ -1,5 +1,6 @@
 package com.jessy.entity.vues;
 
+import com.jessy.entity.controleurs.ControleurAccueil;
 import com.jessy.entity.controleurs.ControleurFormulaire;
 import com.jessy.entity.dao.DAOClient;
 import com.jessy.entity.entites.Client;
@@ -33,6 +34,7 @@ public class Formulaire extends JDialog {
     private JTextField NomRue;
     private JTextField Ville;
     private JTextField ID;
+    private JLabel IdLabel;
     protected static String Type;
 
     public Formulaire(String Flag, String Type) {
@@ -66,6 +68,22 @@ public class Formulaire extends JDialog {
             NbEmployers.setVisible(false);
             NbEmployes.setVisible(false);
         }
+        if (Objects.equals(Type, "SUPPRIMER")){
+            RaisonSociale.setEnabled(false);
+            NumRue.setEnabled(false);
+            NomRue.setEnabled(false);
+            CodePostal.setEnabled(false);
+            Ville.setEnabled(false);
+            Tel.setEnabled(false);
+            Email.setEnabled(false);
+            ChiffreDate.setEnabled(false);
+            NbEmployes.setEnabled(false);
+            Commentaire.setEnabled(false);
+        } else if (Objects.equals(Type, "CREER")) {
+            ID.setEnabled(false);
+            ID.setVisible(false);
+            IdLabel.setVisible(false);
+        }
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +111,7 @@ public class Formulaire extends JDialog {
         confirmerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 String RS = RaisonSociale.getText();
                 String StreetNumber = NumRue.getText();
                 String StreetName = NomRue.getText();
@@ -101,23 +120,40 @@ public class Formulaire extends JDialog {
                 String Phone = Tel.getText();
                 String Mail = Email.getText();
                 String Com = Commentaire.getText();
-
-
                 if(Objects.equals(Type, "CREER")){
-
+                    if (Objects.equals(Flag, "CLIENT")) {
+                        try {
+                            ControleurFormulaire.CreateFormClient(RS, StreetNumber, StreetName,
+                                    CP, City, Phone, Mail, Double.parseDouble(ChiffreDate.getText()), Integer.parseInt(NbEmployes.getText()), Com);
+                            JOptionPane.showMessageDialog(null, "Création du client terminé");
+                            ControleurAccueil.NewAccueil();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 } else if (Objects.equals(Type, "MODIFIER")) {
                     if (Objects.equals(Flag, "CLIENT")) {
                         try {
                             ControleurFormulaire.UpdateFormClient(Integer.parseInt(ID.getText()), RS, StreetNumber, StreetName,
                                     CP, City, Phone, Mail, Double.parseDouble(ChiffreDate.getText()), Integer.parseInt(NbEmployes.getText()), Com);
-                            JOptionPane.showMessageDialog(null, "Confirmer ok");
+                            JOptionPane.showMessageDialog(null, "Modification du client terminé");
+                            ControleurAccueil.NewAccueil();
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
+                    }
+                    else{
 
                     }
                 }else if(Objects.equals(Type, "SUPPRIMER")){
+                    try {
+                        ControleurFormulaire.DeleteFormClient(Integer.parseInt(ID.getText()));
+                        JOptionPane.showMessageDialog(null, "Suppression du client terminé");
+                        ControleurAccueil.NewAccueil();
 
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });

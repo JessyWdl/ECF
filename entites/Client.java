@@ -8,9 +8,9 @@ public class Client extends Societe {
     private Double ChiffreAffaire;
     private int NbEmployes;
 
-    public Client(int ID, String RaisonSociale, String NumRue, String NomRue, String CodePostal,
+    public Client(String RaisonSociale, String NumRue, String NomRue, String CodePostal,
                   String Ville, String Tel, String Email, Double ChiffreAffaire, int NbEmployes, String Commentaire) throws MonException {
-        super(ID, RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, Commentaire);
+        super(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, Commentaire);
         setChiffreAffaire(ChiffreAffaire);
         setNbEmployes(NbEmployes);
     }
