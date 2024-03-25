@@ -75,6 +75,7 @@ public class Accueil extends JDialog {
                 clearComboBox();
                 addPlaceholder();
                 fillComboBox();
+                isEmpty();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -107,7 +108,7 @@ public class Accueil extends JDialog {
         selectSociete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                selectedValue = (String) selectSociete.getSelectedItem();
+                selectedValue = selectSociete.getSelectedItem();
                 isEmpty();
             }
         });
@@ -131,13 +132,13 @@ public class Accueil extends JDialog {
     private void isEmpty(){
         if (Objects.equals(selectedValue, "-")){
             modifierButton.setVisible(false);
-            afficherButton.setVisible(false);
+            afficherButton.setVisible(true);
             supprimerButton.setVisible(false);
             creerButton.setVisible(true);
         }
         else{
             modifierButton.setVisible(true);
-            afficherButton.setVisible(true);
+            afficherButton.setVisible(false);
             supprimerButton.setVisible(true);
             creerButton.setVisible(false);
         }

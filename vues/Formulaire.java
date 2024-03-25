@@ -1,7 +1,10 @@
 package com.jessy.entity.vues;
 
+import com.jessy.entity.controleurs.ControleurFormulaire;
 import com.jessy.entity.dao.DAOClient;
 import com.jessy.entity.entites.Client;
+import com.jessy.entity.entites.Prospect;
+import com.sun.jdi.Value;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -30,7 +33,6 @@ public class Formulaire extends JDialog {
     private JTextField NomRue;
     private JTextField Ville;
     private JTextField ID;
-
     protected static String Type;
 
     public Formulaire(String Flag, String Type) {
@@ -91,13 +93,28 @@ public class Formulaire extends JDialog {
         confirmerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String RS = RaisonSociale.getText();
+                String StreetNumber = NumRue.getText();
+                String StreetName = NomRue.getText();
+                String CP = CodePostal.getText();
+                String City = Ville.getText();
+                String Phone = Tel.getText();
+                String Mail = Email.getText();
+                String Com = Commentaire.getText();
+
+
                 if(Objects.equals(Type, "CREER")){
 
                 } else if (Objects.equals(Type, "MODIFIER")) {
-                    try {
-                        DAOClient.update(Accueil.Value);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+                    if (Objects.equals(Flag, "CLIENT")) {
+                        try {
+                            ControleurFormulaire.UpdateFormClient(Integer.parseInt(ID.getText()), RS, StreetNumber, StreetName,
+                                    CP, City, Phone, Mail, Double.parseDouble(ChiffreDate.getText()), Integer.parseInt(NbEmployes.getText()), Com);
+                            JOptionPane.showMessageDialog(null, "Confirmer ok");
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
                     }
                 }else if(Objects.equals(Type, "SUPPRIMER")){
 
@@ -105,7 +122,6 @@ public class Formulaire extends JDialog {
             }
         });
     }
-
     private void onOK() {
         // add your code here
         dispose();
@@ -114,8 +130,7 @@ public class Formulaire extends JDialog {
         // add your code here if necessary
         dispose();
     }
-
-    public void fillForm(Client client) {
+    public void fillFormClient(Client client) {
         ID.setText(String.valueOf(client.getID()));
         ID.setEnabled(false);
         RaisonSociale.setText(client.getRaisonSociale());
@@ -128,5 +143,24 @@ public class Formulaire extends JDialog {
         ChiffreDate.setText(String.valueOf(client.getChiffreAffaire()));
         NbEmployes.setText(String.valueOf(client.getNbEmployes()));
         Commentaire.setText(client.getCommentaire());
+    }
+    public void fillFormProspect(Prospect prospect){
+        ID.setText(String.valueOf(prospect.getID()));
+        ID.setEnabled(false);
+        RaisonSociale.setText(prospect.getRaisonSociale());
+        NumRue.setText(prospect.getNumRue());
+        NomRue.setText(prospect.getNomRue());
+        CodePostal.setText(prospect.getCodePostal());
+        Ville.setText(prospect.getVille());
+        Tel.setText(prospect.getTel());
+        Email.setText(prospect.getEmail());
+        ChiffreDate.setText(String.valueOf(prospect.getDateProspect()));
+        NbEmployes.setText(String.valueOf(prospect.getProspectInteresse()));
+        if (Objects.equals(prospect.getProspectInteresse(), "oui")){
+            ouiRadioButton.setSelected(true);
+        } else if (Objects.equals(prospect.getProspectInteresse(), "non")){
+            nonRadioButton.setSelected(true);
+            }
+        Commentaire.setText(prospect.getCommentaire());
     }
 }

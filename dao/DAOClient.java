@@ -50,7 +50,6 @@ public class DAOClient {
             stmt = con.prepareStatement(query);
             stmt.setObject(1, where);
             ResultSet rs = stmt.executeQuery();
-
             while (rs.next()) {
                 client.setID(rs.getInt("ID"));
                 client.setRaisonSociale(rs.getString("RaisonSociale"));
@@ -106,14 +105,13 @@ public class DAOClient {
         return client;
     }
 
-    public static Client update(Object where) throws Exception {
+    public static Client update(int where, Client client) throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
 
-        String query = "UPDATE `client` SET `Raison sociale` = ?, `NumRue` = ?, `NomRue` = ? `CodePostal` = ?," +
-                "`Ville` = ?, `Tel` = ?, `Email` = ?, `ChiffreAffaire` = ?, `NbEmployes` = ?, `Commentaire`= ? " +
-                "WHERE `client`.`RaisonSociale` = ?";
-        Client client = new Client();
+        String query = "UPDATE client SET Raison sociale = ?, NumRue = ?, NomRue = ?, CodePostal` = ?," +
+                "Ville = ?, Tel = ?, Email = ?, ChiffreAffaire = ?, NbEmployes = ?, Commentaire= ? " +
+                "WHERE ID =" + where;
         try {
             stmt = con.prepareStatement(query);
             stmt.setString(1, client.getRaisonSociale());
@@ -126,7 +124,6 @@ public class DAOClient {
             stmt.setDouble(8,client.getChiffreAffaire());
             stmt.setInt(9, client.getNbEmployes());
             stmt.setString(10, client.getCommentaire());
-            stmt.setObject(11, where);
 
             stmt.executeUpdate();
         } catch (SQLException e) {

@@ -102,6 +102,7 @@ public class Societe {
         if (!validate(Email)){
             throw new MonException("L'email n'est pas conforme");
         }
+        this.Email = Email;
     }
     public void setCommentaire(String Commentaire){
         if(Commentaire.isEmpty()){

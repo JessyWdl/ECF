@@ -43,17 +43,16 @@ public class DAOProspect {
         return prospectArrayList;
     }
 
-    public static ArrayList<Prospect> findByName(String where) throws Exception {
+    public static Prospect findByName(Object where) throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
-        String query = "select * from client where RaisonSociale=?";
-        ArrayList<Prospect> prospectArrayList = new ArrayList<>();
+        String query = "select * from prospect where RaisonSociale=?";
+        Prospect prospect = new Prospect();
         try {
             stmt = con.prepareStatement(query);
-            stmt.setString(1, where);
+            stmt.setObject(1, where);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Prospect prospect = new Prospect();
                 prospect.setID(rs.getInt("ID"));
                 prospect.setRaisonSociale(rs.getString("RaisonSociale"));
                 prospect.setNumRue(rs.getString("NumRue"));
@@ -65,8 +64,6 @@ public class DAOProspect {
                 prospect.setDateProspect(rs.getDate("DateProspect").toLocalDate());
                 prospect.setProspectInteresse(rs.getString("ProspectInteresse"));
                 prospect.setCommentaire(rs.getString("Commentaire"));
-
-                prospectArrayList.add(prospect);
             }
         } catch (SQLException e) {
             LOGGER.info("Database closed");
@@ -77,7 +74,7 @@ public class DAOProspect {
                 stmt.close();
             }
         }
-        return prospectArrayList;
+        return prospect;
     }
 
     public static void create(Prospect prospect) throws Exception {
@@ -109,12 +106,13 @@ public class DAOProspect {
         }
     }
 
-    public Prospect update(Prospect prospect, String where) throws Exception {
+    public static Prospect update(Object where) throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
         String query = "UPDATE `prospect` SET `Raison sociale` = ?, `NumRue` = ?, `NomRue` = ? `CodePostal` = ?," +
                 "`Ville` = ?, `Tel` = ?, `Email` = ?, `DateProspect` = ?, `ProspectInteresse` = ?, `Commentaire`= ? " +
                 "WHERE `client`.`RaisonSociale` = ?";
+        Prospect prospect = new Prospect();
         try {
             stmt = con.prepareStatement(query);
             stmt.setString(1, prospect.getRaisonSociale());
