@@ -1,6 +1,7 @@
 package com.jessy.entity.vues;
 
 import com.jessy.entity.controleurs.ControleurAccueil;
+import com.jessy.entity.controleurs.ControleurAfficher;
 import com.jessy.entity.controleurs.ControleurFormulaire;
 import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
@@ -108,13 +109,19 @@ public class Accueil extends JDialog {
                 throw new RuntimeException(ex);
             }
         });
-        selectSociete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectedValue = selectSociete.getSelectedItem();
-                isEmpty();
+        afficherButton.addActionListener(e -> {
+            dispose();
+            try{
+                ControleurAfficher.NewAfficher();
+            }catch (Exception ex){
+                throw new RuntimeException(ex);
             }
         });
+        selectSociete.addActionListener(e -> {
+            selectedValue = selectSociete.getSelectedItem();
+            isEmpty();
+        });
+
     }
     private void clearComboBox(){
         selectSociete.removeAllItems();
