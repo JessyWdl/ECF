@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import static com.jessy.entity.logs.Logs.LOGGER;
 
 public class DAOProspect {
-    public static ArrayList<Prospect>  findAll() throws Exception {
+    public static ArrayList<Prospect> findAll() throws Exception {
         Connection con = DatabaseConnection.con();
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         String query = "select * from prospect";
         ArrayList<Prospect> prospectArrayList = new ArrayList<>();
         try {
-            stmt = con.createStatement();
+            stmt = con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Prospect prospect = new Prospect();

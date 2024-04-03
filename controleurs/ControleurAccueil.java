@@ -20,11 +20,4 @@ public class ControleurAccueil{
     public static ArrayList<Prospect> addProspectInSelectSociete() throws Exception {
         return DAOProspect.findAll();
     }
-    public static void afficher(String Flag) {
-        if (Objects.equals(Flag, "CLIENT")) {
-            ControleurAfficher ca = new ControleurAfficher();
-        } else if (Objects.equals(Flag, "PROSPECT")) {
-            ControleurAfficher ca = new ControleurAfficher();
-        }
-    }
 }

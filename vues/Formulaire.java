@@ -84,10 +84,10 @@ public class Formulaire extends JDialog {
             ID.setVisible(false);
             IdLabel.setVisible(false);
         }
-
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                dispose();
+                ControleurAccueil.NewAccueil();
             }
         });
         buttonCancel.addActionListener(new ActionListener() {

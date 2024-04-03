@@ -112,7 +112,7 @@ public class Accueil extends JDialog {
         afficherButton.addActionListener(e -> {
             dispose();
             try{
-                ControleurAfficher.NewAfficher();
+                ControleurAfficher.Afficher(Flag);
             }catch (Exception ex){
                 throw new RuntimeException(ex);
             }
