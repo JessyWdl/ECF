@@ -14,6 +14,7 @@ public class ControleurAccueil{
         Accueil accueil = new Accueil();
         accueil.setVisible(true);
     }
+    //Récupère les Raison Sociale de chaque client ou Prospect en fonction du JButton
     public static ArrayList<Client> addClientInSelectSociete() throws Exception {
         return DAOClient.findAll();
     }

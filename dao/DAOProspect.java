@@ -1,5 +1,6 @@
 package com.jessy.entity.dao;
 
+import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
 import com.jessy.entity.exception.MonException;
 
@@ -92,7 +93,7 @@ public class DAOProspect {
             stmt.setString(5, prospect.getVille());
             stmt.setString(6, prospect.getTel());
             stmt.setString(7, prospect.getEmail());
-            stmt.setDate(8, Date.valueOf(prospect.getDateProspect()));
+            stmt.setObject(8, prospect.getDateProspect());
             stmt.setString(9, prospect.getProspectInteresse());
             stmt.setString(10, prospect.getCommentaire());
 
@@ -106,13 +107,12 @@ public class DAOProspect {
         }
     }
 
-    public static Prospect update(Object where) throws Exception {
+    public static Prospect update(int where, Prospect prospect) throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
-        String query = "UPDATE `prospect` SET `RaisonSociale` = ?, `NumRue` = ?, `NomRue` = ? `CodePostal` = ?," +
-                "`Ville` = ?, `Tel` = ?, `Email` = ?, `DateProspect` = ?, `ProspectInteresse` = ?, `Commentaire`= ? " +
-                "WHERE `client`.`RaisonSociale` = ?";
-        Prospect prospect = new Prospect();
+        String query = "UPDATE prospect SET RaisonSociale = ?, NumRue = ?, NomRue = ?, CodePostal = ?," +
+                "Ville = ?, Tel = ?, Email = ?, DateProspect = ?, ProspectInteresse = ?, Commentaire = ? " +
+                "WHERE `ID` = ?";
         try {
             stmt = con.prepareStatement(query);
             stmt.setString(1, prospect.getRaisonSociale());
@@ -125,6 +125,7 @@ public class DAOProspect {
             stmt.setDate(8, Date.valueOf(prospect.getDateProspect()));
             stmt.setString(9, prospect.getProspectInteresse());
             stmt.setString(10, prospect.getCommentaire());
+            stmt.setInt(11, where);
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -137,12 +138,13 @@ public class DAOProspect {
         return prospect;
     }
 
-    public static void delete(Connection con, String where) throws Exception {
+    public static void delete(int where) throws Exception {
+        Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
         String query = "Delete from prospect where ID=?";
         try {
             stmt = con.prepareStatement(query);
-            stmt.setString(1, where);
+            stmt.setInt(1, where);
 
             stmt.executeUpdate();
         } catch (SQLException e) {

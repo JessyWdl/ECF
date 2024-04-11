@@ -34,7 +34,7 @@ public class DatabaseConnection {
             throw new Exception(e);
         }
     }
-
+    //Singleton (vérifier que la connection est bien fermé avant d'en ouvrir une nouvelle)
     public static Connection con() throws Exception {
         if (connection == null){
             System.out.println("connection established");

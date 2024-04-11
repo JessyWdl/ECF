@@ -44,13 +44,12 @@ public class Afficher extends JDialog {
         model.addColumn("Email");
         model.addColumn("Commentaire");
         try {
+            //Remplir le tableau avec les info de Client
             if (Objects.equals(Flag, "CLIENT")) {
                 model.addColumn("Chiffre d'Affaire");
                 model.addColumn("Nombre d'Employés");
-
                 ArrayList<Client> clients = ControleurAfficher.fillAfficher(Flag);
                 for (Client client : clients) {
-
                     Object[] fillTableau = {
                             client.getID(),
                             client.getRaisonSociale(),
@@ -67,15 +66,12 @@ public class Afficher extends JDialog {
                     model.addRow(fillTableau);
                     table1.setModel(model);
                 }
-
+                //Remplir le tableau avec les info du Prospect
             } else if (Objects.equals(Flag, "PROSPECT")) {
                 model.addColumn("Date Prospection");
                 model.addColumn("Intéret Prospection");
-
                 ArrayList<Prospect> prospects = ControleurAfficher.fillAfficher(Flag);
                 for (Prospect prospect : prospects) {
-
-
                     Object[] fillTableau = {
                             prospect.getID(),
                             prospect.getRaisonSociale(),

@@ -45,18 +45,17 @@ public class Accueil extends JDialog {
         ButtonGroup table = new ButtonGroup();
         table.add(clientRadioButton);
         table.add(prospectRadioButton);
-        //-----------------------------------------------------------------------------------------------------------
+
         buttonQuitter.addActionListener(e -> onCancel());
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
             }
         });
-        // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        //-----------------------------------------------------------------------------------------------------------
+
+        //Définir le flag + remplir la combo box ici
         clientRadioButton.addActionListener(e -> {
             PanelSelectionSociete.setVisible(true);
             Flag = "CLIENT";
@@ -81,7 +80,7 @@ public class Accueil extends JDialog {
                 throw new RuntimeException(ex);
             }
         });
-        //-----------------------------------------------------------------------------------------------------------
+
         creerButton.addActionListener(e -> {
             dispose();
             try {
@@ -121,11 +120,12 @@ public class Accueil extends JDialog {
             selectedValue = selectSociete.getSelectedItem();
             isEmpty();
         });
-
     }
+    //Pour éviter qu'à chaque changement de valeur entre client et prospect, les valeurs s'additione
     private void clearComboBox(){
         selectSociete.removeAllItems();
     }
+    //Fill la combo box
     private void fillComboBox() throws Exception {
         if (Objects.equals(Flag, "CLIENT")) {
             ArrayList<Client> clientArrayList = ControleurAccueil.addClientInSelectSociete();
@@ -139,6 +139,7 @@ public class Accueil extends JDialog {
             }
         }
     }
+    //Check de la valeur si = à placeholder seulement affichage/creer
     private void isEmpty(){
         if (Objects.equals(selectedValue, "-")){
             modifierButton.setVisible(false);
@@ -157,7 +158,6 @@ public class Accueil extends JDialog {
         selectSociete.addItem("-");
     }
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 }

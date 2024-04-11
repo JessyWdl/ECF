@@ -10,6 +10,8 @@ import com.sun.jdi.Value;
 
 import java.nio.file.WatchEvent;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -22,7 +24,8 @@ public class ControleurFormulaire {
             Formulaire f = new Formulaire(Flag, Type);
             f.setVisible(true);
         } else if (Objects.equals(Flag, "PROSPECT")) {
-            ControleurFormulaire cf = new ControleurFormulaire();
+            Formulaire f = new Formulaire(Flag, Type);
+            f.setVisible(true);
         }
     }
 
@@ -56,21 +59,40 @@ public class ControleurFormulaire {
         }
     }
 
+    //Méthode utilisé pour la création d'un client ou d'un prospect
     public static void CreateFormClient(String RaisonSociale, String NumRue, String NomRue, String CodePostal,
                                         String Ville, String Tel, String Email, double ChiffreAffaire, int NbEmployes, String Commentaire)
             throws Exception {
         Client client = new Client(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, ChiffreAffaire, NbEmployes, Commentaire);
         DAOClient.create(client);
     }
+    public static void CreateFormProspect(String RaisonSociale, String NumRue, String NomRue, String CodePostal,
+                                        String Ville, String Tel, String Email, LocalDate DateProspect, String ProspectInteresse, String Commentaire)
+            throws Exception {
+        Prospect prospect = new Prospect(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, DateProspect, ProspectInteresse, Commentaire);
+        DAOProspect.create(prospect);
+    }
 
+    //Méthode utilisé pour la modification d'un client ou d'un prospect
     public static void UpdateFormClient(int ID, String RaisonSociale, String NumRue, String NomRue, String CodePostal,
                                         String Ville, String Tel, String Email, double ChiffreAffaire, int NbEmployes, String Commentaire)
             throws Exception {
         Client client = new Client(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, ChiffreAffaire, NbEmployes, Commentaire);
         DAOClient.update(ID, client);
     }
+    public static void UpdateFormProspect(int ID, String RaisonSociale, String NumRue, String NomRue, String CodePostal,
+                                        String Ville, String Tel, String Email, LocalDate DateProspect, String ProspectInteresse, String Commentaire)
+            throws Exception {
+        Prospect prospect = new Prospect(RaisonSociale, NumRue, NomRue, CodePostal, Ville, Tel, Email, DateProspect, ProspectInteresse, Commentaire);
+        DAOProspect.update(ID, prospect);
+    }
+
+    //Méthode utilisé pour la suppression d'un client ou d'un prospect en fonction de son ID
     public static void DeleteFormClient(int ID) throws Exception {
         DAOClient.delete(ID);
+    }
+    public static void DeleteFormProspect(int ID) throws Exception {
+        DAOProspect.delete(ID);
     }
 }
 

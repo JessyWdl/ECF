@@ -14,6 +14,7 @@ public class ControleurAfficher {
             Afficher a = new Afficher(Flag);
             a.setVisible(true);
     }
+    //Permet de réucpérer toute les valeurs de la table client ou prospect pour les ajouters à la JTable
     public static ArrayList fillAfficher(String Flag) throws Exception {
         if (Objects.equals(Flag, "CLIENT")) {
             return DAOClient.findAll();
