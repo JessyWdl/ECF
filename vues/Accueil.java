@@ -5,6 +5,7 @@ import com.jessy.entity.controleurs.ControleurAfficher;
 import com.jessy.entity.controleurs.ControleurFormulaire;
 import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
+import com.jessy.entity.exception.MonException;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -41,7 +42,6 @@ public class Accueil extends JDialog {
         supprimerButton.setVisible(false);
         creerButton.setVisible(false);
         PanelSelectionSociete.setVisible(false);
-
         ButtonGroup table = new ButtonGroup();
         table.add(clientRadioButton);
         table.add(prospectRadioButton);
@@ -65,7 +65,7 @@ public class Accueil extends JDialog {
                 fillComboBox();
                 isEmpty();
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw MonException(ex);
             }
         });
         prospectRadioButton.addActionListener(e -> {
@@ -77,17 +77,13 @@ public class Accueil extends JDialog {
                 fillComboBox();
                 isEmpty();
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw MonException(ex);
             }
         });
 
         creerButton.addActionListener(e -> {
             dispose();
-            try {
                 ControleurFormulaire.ajouter(Flag);
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
         });
 
         modifierButton.addActionListener(e -> {
@@ -96,7 +92,7 @@ public class Accueil extends JDialog {
             try {
                 ControleurFormulaire.modifier(Flag, Value);
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw MonException;
             }
         });
         supprimerButton.addActionListener(e -> {
@@ -105,16 +101,12 @@ public class Accueil extends JDialog {
             try {
                 ControleurFormulaire.supprimer(Flag, Value);
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                throw MonException;
             }
         });
         afficherButton.addActionListener(e -> {
             dispose();
-            try{
                 ControleurAfficher.Afficher(Flag);
-            }catch (Exception ex){
-                throw new RuntimeException(ex);
-            }
         });
         selectSociete.addActionListener(e -> {
             selectedValue = selectSociete.getSelectedItem();

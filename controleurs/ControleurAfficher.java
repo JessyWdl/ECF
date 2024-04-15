@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ControleurAfficher {
-    public static void Afficher(String Flag) throws Exception {
+    public static void Afficher(String Flag){
             Afficher a = new Afficher(Flag);
             a.setVisible(true);
     }

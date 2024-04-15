@@ -1,11 +1,12 @@
 package com.jessy.entity.dao;
 
-import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
+import com.jessy.entity.exception.DaoException;
 import com.jessy.entity.exception.MonException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import static com.jessy.entity.logs.Logs.LOGGER;
 
@@ -34,8 +35,11 @@ public class DAOProspect {
 
                 prospectArrayList.add(prospect);
             }
-        } catch (SQLException e) {
-            LOGGER.info("Database closed");
+        } catch (MonException me) {
+            throw new DaoException(me.getMessage(), Level.WARNING);
+        } catch (SQLException sqle) {
+            LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
+            throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -66,10 +70,11 @@ public class DAOProspect {
                 prospect.setProspectInteresse(rs.getString("ProspectInteresse"));
                 prospect.setCommentaire(rs.getString("Commentaire"));
             }
-        } catch (SQLException e) {
-            LOGGER.info("Database closed");
-        } catch (MonException e) {
-            throw new RuntimeException(e);
+        } catch (MonException me) {
+            throw new DaoException(me.getMessage(), Level.WARNING);
+        } catch (SQLException sqle) {
+            LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
+            throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -98,8 +103,9 @@ public class DAOProspect {
             stmt.setString(10, prospect.getCommentaire());
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.info("Database closed");
+        } catch (SQLException sqle) {
+            LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
+            throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -121,15 +127,16 @@ public class DAOProspect {
             stmt.setString(4, prospect.getCodePostal());
             stmt.setString(5, prospect.getVille());
             stmt.setString(6, prospect.getTel());
-            stmt.setString(7,prospect.getEmail());
+            stmt.setString(7, prospect.getEmail());
             stmt.setDate(8, Date.valueOf(prospect.getDateProspect()));
             stmt.setString(9, prospect.getProspectInteresse());
             stmt.setString(10, prospect.getCommentaire());
             stmt.setInt(11, where);
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.info("Database closed");
+        } catch (SQLException sqle) {
+            LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
+            throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -147,8 +154,9 @@ public class DAOProspect {
             stmt.setInt(1, where);
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.info("Database closed");
+        } catch (SQLException sqle) {
+            LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
+            throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
         } finally {
             if (stmt != null) {
                 stmt.close();

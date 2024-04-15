@@ -1,10 +1,9 @@
 package com.jessy.entity.exception;
 
+import java.util.logging.Level;
+
 public class DaoException extends Exception{
-    public DaoException(String Message, int Gravite) {
+    public DaoException(String Message, Level Gravite) {
         super(Message);
-        if (Gravite > 5){
-            System.exit(1);
-        }
     }
 }

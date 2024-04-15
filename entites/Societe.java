@@ -57,7 +57,7 @@ public class Societe {
     public String getCommentaire(){return Commentaire;}
     public void setID(int ID) throws MonException {
         if (ID < 0){
-            throw new MonException("Id ne peut être négatif");
+            throw new MonException("ID ne peut être négatif");
         }
         this.ID = ID;
     }

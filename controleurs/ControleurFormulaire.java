@@ -17,8 +17,8 @@ import java.util.Objects;
 
 public class ControleurFormulaire {
     public static String Type;
-
-    public static void ajouter(String Flag) throws Exception {
+    //Appel d'un nouveau form avec comme type CREER qui sera utilisé pour la détection de l'action du bouton "confirmer"
+    public static void ajouter(String Flag){
         Type = "CREER";
         if (Objects.equals(Flag, "CLIENT")) {
             Formulaire f = new Formulaire(Flag, Type);

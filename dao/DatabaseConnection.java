@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import static com.jessy.entity.logs.Logs.LOGGER;
 
@@ -27,9 +28,8 @@ public class DatabaseConnection {
                     dataProperties.getProperty("login"),
                     dataProperties.getProperty("password")
             );
-            System.out.println("Database initialised");
         } catch (SQLException e) {
-            throw new DaoException("Username or password incorrect",1);
+            throw new DaoException("Username or password incorrect", Level.INFO);
         } catch (IOException e) {
             throw new Exception(e);
         }
@@ -37,7 +37,6 @@ public class DatabaseConnection {
     //Singleton (vérifier que la connection est bien fermé avant d'en ouvrir une nouvelle)
     public static Connection con() throws Exception {
         if (connection == null){
-            System.out.println("connection established");
             new DatabaseConnection();
         }
         return connection;
@@ -50,7 +49,7 @@ public class DatabaseConnection {
                         LOGGER.info("Database closed");
                         connection.close();
                     } catch (SQLException ex) {
-                        LOGGER.severe("problème database " + ex.getMessage());
+                        LOGGER.severe("problème BDD " + ex.getMessage());
                     }
                 }
             })
