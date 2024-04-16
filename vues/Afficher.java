@@ -5,6 +5,7 @@ import com.jessy.entity.controleurs.ControleurAfficher;
 import com.jessy.entity.dao.DAOClient;
 import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
+import com.jessy.entity.exception.MonException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,14 +13,27 @@ import java.awt.event.*;
 import java.net.IDN;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Level;
 
+import static com.jessy.entity.logs.Logs.LOGGER;
+/**
+ * Cette classe permet l'affichage d'un client ou prospect dans un tableau elle extend JDialog
+ */
 public class Afficher extends JDialog {
+    // Declaration des variables d'instance/UI components
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTable table1;
 
+    /**
+     * Constructs a new Afficher dialog with the specified flag indicating whether to display clients or prospects.
+     *
+     * @param Flag The flag indicating whether to display clients or prospects.
+     */
     public Afficher(String Flag){
+        // Début du code et setup de l'UI
+
         DefaultTableModel model = new DefaultTableModel();
         setContentPane(contentPane);
         setModal(true);
@@ -27,11 +41,9 @@ public class Afficher extends JDialog {
         setSize(900, 400);
         setLocationRelativeTo(null);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                ControleurAccueil.NewAccueil();
-            }
+        buttonOK.addActionListener(e -> {
+            dispose();
+            ControleurAccueil.NewAccueil();
         });
 
         model.addColumn("Id");
@@ -89,27 +101,27 @@ public class Afficher extends JDialog {
                     table1.setModel(model);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch (MonException me) {
+            JOptionPane.showMessageDialog(null, me.getMessage());
+        }
+        catch (Exception ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Un problème est survenu");
+            System.exit(1);
         }
 
         buttonCancel.addActionListener(e -> onCancel());
-
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
             }
         });
-
-        // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        // Method to handle cancellation action
         dispose();
     }
 }

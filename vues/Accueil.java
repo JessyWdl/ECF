@@ -12,8 +12,15 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Level;
 
+import static com.jessy.entity.logs.Logs.LOGGER;
+/**
+ * Cette classe represente la dialogue principale pour l'application, affichant les différentes options qui permettent
+ * de gérer un client ou un prospect elle extend JDialog
+ */
 public class Accueil extends JDialog {
+    // Declaration des variables d'instance/UI components
     private JPanel contentPane;
     private JButton buttonQuitter;
     private JButton creerButton;
@@ -31,7 +38,11 @@ public class Accueil extends JDialog {
     public static Object Value;
     private Object selectedValue = selectSociete.getSelectedItem();
 
+    /**
+     * Construire une nouvelle accueil en fonction des choix utilisateurs
+     */
     public Accueil() {
+        // Début du code et setup de l'UI
         setContentPane(contentPane);
         getRootPane().setDefaultButton(buttonQuitter);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,8 +75,12 @@ public class Accueil extends JDialog {
                 addPlaceholder();
                 fillComboBox();
                 isEmpty();
-            } catch (Exception ex) {
-                throw MonException(ex);
+            }catch (MonException me) {
+                JOptionPane.showMessageDialog(null, me.getMessage());
+            }catch (Exception ex){
+                LOGGER.log(Level.SEVERE, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                System.exit(1);
             }
         });
         prospectRadioButton.addActionListener(e -> {
@@ -76,8 +91,12 @@ public class Accueil extends JDialog {
                 addPlaceholder();
                 fillComboBox();
                 isEmpty();
-            } catch (Exception ex) {
-                throw MonException(ex);
+            }catch (MonException me) {
+                JOptionPane.showMessageDialog(null, me.getMessage());
+            }catch (Exception ex){
+                LOGGER.log(Level.SEVERE, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                System.exit(1);
             }
         });
 
@@ -91,8 +110,12 @@ public class Accueil extends JDialog {
             dispose();
             try {
                 ControleurFormulaire.modifier(Flag, Value);
-            } catch (Exception ex) {
-                throw MonException;
+            }catch (MonException me) {
+                JOptionPane.showMessageDialog(null, me.getMessage());
+            }catch (Exception ex){
+                LOGGER.log(Level.SEVERE, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                System.exit(1);
             }
         });
         supprimerButton.addActionListener(e -> {
@@ -100,8 +123,12 @@ public class Accueil extends JDialog {
             dispose();
             try {
                 ControleurFormulaire.supprimer(Flag, Value);
-            } catch (Exception ex) {
-                throw MonException;
+            }   catch (MonException me) {
+                JOptionPane.showMessageDialog(null, me.getMessage());
+            } catch (Exception ex){
+                LOGGER.log(Level.SEVERE, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                System.exit(1);
             }
         });
         afficherButton.addActionListener(e -> {

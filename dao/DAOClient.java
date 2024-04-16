@@ -9,7 +9,16 @@ import java.util.logging.Level;
 
 import static com.jessy.entity.logs.Logs.LOGGER;
 
+/**
+ * This class provides data access methods for interacting with the Client table in the database.
+ */
 public class DAOClient {
+    /**
+     * Retrieves all Client records from the database.
+     *
+     * @return An ArrayList containing all Client objects retrieved from the database.
+     * @throws Exception if an error occurs while accessing the database.
+     */
     public static ArrayList<Client> findAll() throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
@@ -72,9 +81,14 @@ public class DAOClient {
         } catch (MonException me) {
             throw new DaoException(me.getMessage(), Level.WARNING);
         } catch (SQLException sqle) {
+            if (sqle.getErrorCode() == 1062){
+                throw new DaoException("La raison sociale doit être unique", Level.WARNING);
+            } else if (sqle.getErrorCode() == 1406) {
+                throw new DaoException("Trop de caractères", Level.WARNING);
+            }
             LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
             throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
-        } finally {
+        }  finally {
             if (stmt != null) {
                 stmt.close();
             }
@@ -103,9 +117,14 @@ public class DAOClient {
 
             stmt.executeUpdate();
         }catch (SQLException sqle) {
+            if (sqle.getErrorCode() == 1062){
+                throw new DaoException("La raison sociale doit être unique", Level.WARNING);
+            } else if (sqle.getErrorCode() == 1406) {
+                throw new DaoException("Trop de caractères", Level.WARNING);
+            }
             LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
             throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
-        } finally {
+        }finally {
             if (stmt != null) {
                 stmt.close();
             }
@@ -136,9 +155,14 @@ public class DAOClient {
 
             stmt.executeUpdate();
         }catch (SQLException sqle) {
+            if (sqle.getErrorCode() == 1062){
+                throw new DaoException("La raison sociale doit être unique", Level.WARNING);
+            } else if (sqle.getErrorCode() == 1406) {
+                throw new DaoException("Trop de caractères", Level.WARNING);
+            }
             LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
             throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
-        } finally {
+        }finally {
             if (stmt != null) {
                 stmt.close();
             }

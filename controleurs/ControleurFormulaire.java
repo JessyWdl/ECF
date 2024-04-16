@@ -15,9 +15,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * This class serves as the controller for managing form-related operations.
+ */
 public class ControleurFormulaire {
     public static String Type;
     //Appel d'un nouveau form avec comme type CREER qui sera utilisé pour la détection de l'action du bouton "confirmer"
+    /**
+     * Opens a form for creating a new entity (Client or Prospect).
+     *
+     * @param Flag Indicates whether the entity is a Client or a Prospect.
+     */
     public static void ajouter(String Flag){
         Type = "CREER";
         if (Objects.equals(Flag, "CLIENT")) {
@@ -29,6 +37,13 @@ public class ControleurFormulaire {
         }
     }
 
+    /**
+     * Opens a form for modifying an existing entity (Client or Prospect).
+     *
+     * @param Flag  Indicates whether the entity is a Client or a Prospect.
+     * @param Value The value of the entity to be modified.
+     * @throws Exception if an error occurs while accessing the database.
+     */
     public static void modifier(String Flag, Object Value) throws Exception {
         Type = "MODIFIER";
         if (Objects.equals(Flag, "CLIENT")) {
@@ -43,7 +58,13 @@ public class ControleurFormulaire {
             f.setVisible(true);
         }
     }
-
+    /**
+     * Opens a form for deleting an existing entity (Client or Prospect).
+     *
+     * @param Flag  Indicates whether the entity is a Client or a Prospect.
+     * @param Value The value of the entity to be deleted.
+     * @throws Exception if an error occurs while accessing the database.
+     */
     public static void supprimer(String Flag, Object Value) throws Exception {
         Type = "SUPPRIMER";
         if (Objects.equals(Flag, "CLIENT")) {

@@ -4,14 +4,24 @@ import com.jessy.entity.controleurs.ControleurAccueil;
 import com.jessy.entity.controleurs.ControleurFormulaire;
 import com.jessy.entity.entites.Client;
 import com.jessy.entity.entites.Prospect;
+import com.jessy.entity.exception.DaoException;
 import com.jessy.entity.exception.MonException;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static com.jessy.entity.logs.Logs.LOGGER;
+
+/**
+ * Cette classe représente un formulaire qui permet la création, modification et suppression d'un client
+ * ou d'un prospect elle extend JDialog
+ */
 public class Formulaire extends JDialog {
+    // Declaration des variables d'instance/UI components
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -37,7 +47,15 @@ public class Formulaire extends JDialog {
     private JLabel IdLabel;
     private static String TypeButton;
 
+    /**
+     * Construire un nouveau Formulaire en utilisant le Flag et Type
+     *
+     * @param Flag Le flag permet d'indiquer au programme si c'est un Client ou un Prospect que l'on va traiter
+     * @param Type Le type d'action que l'on va effectuer sur l'entité (e.g., CREER, MODIFIER, SUPPRIMER).
+     */
     public Formulaire(String Flag, String Type) {
+        // Début du code et setup de l'UI
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -62,7 +80,7 @@ public class Formulaire extends JDialog {
             NbEmployers.setVisible(false);
             NbEmployes.setVisible(false);
         }
-        if (Objects.equals(Type, "SUPPRIMER")){
+        if (Objects.equals(Type, "SUPPRIMER")) {
             RaisonSociale.setEnabled(false);
             NumRue.setEnabled(false);
             NomRue.setEnabled(false);
@@ -95,7 +113,6 @@ public class Formulaire extends JDialog {
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         confirmerButton.addActionListener(e -> {
-            dispose();
             //Permet de récup' les valeurs des différents champs
             String RS = RaisonSociale.getText();
             String StreetNumber = NumRue.getText();
@@ -106,73 +123,117 @@ public class Formulaire extends JDialog {
             String Mail = Email.getText();
             String Com = Commentaire.getText();
             //Créer un Client/Prospect
-            if(Objects.equals(Type, "CREER")){
+            if (Objects.equals(Type, "CREER")) {
                 if (Objects.equals(Flag, "CLIENT")) {
                     try {
                         ControleurFormulaire.CreateFormClient(RS, StreetNumber, StreetName,
                                 CP, City, Phone, Mail, Double.parseDouble(ChiffreDate.getText()), Integer.parseInt(NbEmployes.getText()), Com);
+                        JOptionPane.showMessageDialog(null, "Création du " + Flag + " terminé");
+                        dispose();
+                        ControleurAccueil.NewAccueil();
                     } catch (MonException me) {
-                        me.getMessage();
-                    } catch (Exception ex){
-                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, me.getMessage());
+                    }catch(DaoException dex){
+                        if (dex.getGravite() == Level.SEVERE) {
+                            JOptionPane.showMessageDialog(null, dex.getMessage());
+                        }
+                        JOptionPane.showMessageDialog(null, dex.getMessage());
+                    }catch (Exception ex){
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                        System.exit(1);
                     }
-                }
-                else{
-                    if (Objects.equals(Flag,"PROSPECT")){
+                } else {
+                    if (Objects.equals(Flag, "PROSPECT")) {
                         try {
                             ControleurFormulaire.CreateFormProspect(RS, StreetNumber, StreetName,
                                     CP, City, Phone, Mail, LocalDate.parse(ChiffreDate.getText()), TypeButton, Com);
+                            JOptionPane.showMessageDialog(null, "Création du " + Flag + " terminé");
+                            dispose();
+                            ControleurAccueil.NewAccueil();
+                        } catch (MonException me) {
+                            JOptionPane.showMessageDialog(null, me.getMessage());
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            LOGGER.log(Level.SEVERE, ex.getMessage());
+                            JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                            System.exit(1);
                         }
                     }
                 }
-                JOptionPane.showMessageDialog(null, "Création du " +Flag+ " terminé");
-                ControleurAccueil.NewAccueil();
                 //Modifier un Client/Prospect
             } else if (Objects.equals(Type, "MODIFIER")) {
                 if (Objects.equals(Flag, "CLIENT")) {
                     try {
                         ControleurFormulaire.UpdateFormClient(Integer.parseInt(ID.getText()), RS, StreetNumber, StreetName,
                                 CP, City, Phone, Mail, Double.parseDouble(ChiffreDate.getText()), Integer.parseInt(NbEmployes.getText()), Com);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Modification du " + Flag + " terminé");
+                        dispose();
+                        ControleurAccueil.NewAccueil();
+                    }catch (MonException me) {
+                        JOptionPane.showMessageDialog(null, me.getMessage());
+                    }catch(DaoException dex){
+                        if (dex.getGravite() == Level.SEVERE) {
+                            JOptionPane.showMessageDialog(null, dex.getMessage());
+                        }
+                        JOptionPane.showMessageDialog(null, dex.getMessage());
                     }
-                }
-                else{
+
+                    catch (Exception ex) {
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                        System.exit(1);
+                    }
+                } else {
                     if (Objects.equals(Flag, "PROSPECT")) {
-                        try{
+                        try {
                             ControleurFormulaire.UpdateFormProspect(Integer.parseInt(ID.getText()), RS, StreetNumber, StreetName,
                                     CP, City, Phone, Mail, LocalDate.parse(ChiffreDate.getText()), TypeButton, Com);
+                            JOptionPane.showMessageDialog(null, "Modification du " + Flag + " terminé");
+                            dispose();
+                            ControleurAccueil.NewAccueil();
+                        } catch (MonException me) {
+                            JOptionPane.showMessageDialog(null, me.getMessage());
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            LOGGER.log(Level.SEVERE, ex.getMessage());
+                            JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                            System.exit(1);
                         }
                     }
                 }
-                JOptionPane.showMessageDialog(null, "Modification du "+Flag+" terminé");
-                ControleurAccueil.NewAccueil();
                 //Supprimer un Client/Prospect
-            }else if(Objects.equals(Type, "SUPPRIMER")){
+            } else if (Objects.equals(Type, "SUPPRIMER")) {
                 if (Objects.equals(Flag, "CLIENT")) {
                     try {
                         ControleurFormulaire.DeleteFormClient(Integer.parseInt(ID.getText()));
+                        JOptionPane.showMessageDialog(null, "Suppression du " + Flag + " terminé");
+                        dispose();
+                        ControleurAccueil.NewAccueil();
+                    } catch (MonException me) {
+                        JOptionPane.showMessageDialog(null, me.getMessage());
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                        System.exit(1);
                     }
-                }
-                else {
+                } else {
                     if (Objects.equals(Flag, "PROSPECT")) {
                         try {
                             ControleurFormulaire.DeleteFormProspect(Integer.parseInt(ID.getText()));
+                            JOptionPane.showMessageDialog(null, "Suppression du " + Flag + " terminé");
+                            dispose();
+                            ControleurAccueil.NewAccueil();
+                        } catch (MonException me) {
+                            me.getMessage();
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            LOGGER.log(Level.SEVERE, ex.getMessage());
+                            JOptionPane.showMessageDialog(null, "Un problème est survenu");
+                            System.exit(1);
                         }
                     }
                 }
-                JOptionPane.showMessageDialog(null, "Suppression du " +Flag+ " terminé");
-                ControleurAccueil.NewAccueil();
             }
         });
+
         ouiRadioButton.addActionListener(e -> {
             TypeButton = "oui";
         });
@@ -185,8 +246,13 @@ public class Formulaire extends JDialog {
         dispose();
     }
 
-    //Rempli le formulaire en fonction des paramètres du client
+    /**
+     * Remplir les champs du formulaire avec les données spécifié par l'entité client
+     *
+     * @param client L'entité dont les données vont être utilisé pour remplir le formulaire
+     */
     public void fillFormClient(Client client) {
+        //Rempli le formulaire en fonction des paramètres du client
         ID.setText(String.valueOf(client.getID()));
         ID.setEnabled(false);
         RaisonSociale.setText(client.getRaisonSociale());
@@ -200,8 +266,13 @@ public class Formulaire extends JDialog {
         NbEmployes.setText(String.valueOf(client.getNbEmployes()));
         Commentaire.setText(client.getCommentaire());
     }
-    //Rempli le formulaire en fonction des paramètres du prospect
-    public void fillFormProspect(Prospect prospect){
+    /**
+     * Remplir les champs du formulaire avec les données spécifié par l'entité prospect
+     *
+     * @param prospect L'entité dont les données vont être utilisé pour remplir le formulaire
+     */
+    public void fillFormProspect(Prospect prospect) {
+        //Rempli le formulaire en fonction des paramètres du prospect
         ID.setText(String.valueOf(prospect.getID()));
         ID.setEnabled(false);
         RaisonSociale.setText(prospect.getRaisonSociale());
@@ -213,12 +284,12 @@ public class Formulaire extends JDialog {
         Email.setText(prospect.getEmail());
         ChiffreDate.setText(String.valueOf(prospect.getDateProspect()));
         NbEmployes.setText(String.valueOf(prospect.getProspectInteresse()));
-        if (Objects.equals(prospect.getProspectInteresse(), "oui")){
+        if (Objects.equals(prospect.getProspectInteresse(), "oui")) {
             ouiRadioButton.setSelected(true);
             TypeButton = "oui";
-        } else if (Objects.equals(prospect.getProspectInteresse(), "non")){
+        } else if (Objects.equals(prospect.getProspectInteresse(), "non")) {
             nonRadioButton.setSelected(true);
-            TypeButton ="non";
+            TypeButton = "non";
         }
         Commentaire.setText(prospect.getCommentaire());
     }

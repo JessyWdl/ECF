@@ -10,7 +10,16 @@ import java.util.logging.Level;
 
 import static com.jessy.entity.logs.Logs.LOGGER;
 
+/**
+ * This class provides data access methods for interacting with the Prospect table in the database.
+ */
 public class DAOProspect {
+    /**
+     * Retrieves all Prospect records from the database.
+     *
+     * @return An ArrayList containing all Prospect objects retrieved from the database.
+     * @throws Exception if an error occurs while accessing the database.
+     */
     public static ArrayList<Prospect> findAll() throws Exception {
         Connection con = DatabaseConnection.con();
         PreparedStatement stmt = null;
@@ -103,10 +112,15 @@ public class DAOProspect {
             stmt.setString(10, prospect.getCommentaire());
 
             stmt.executeUpdate();
-        } catch (SQLException sqle) {
+        }catch (SQLException sqle) {
+            if (sqle.getErrorCode() == 1062){
+                throw new DaoException("La raison sociale doit être unique", Level.WARNING);
+            } else if (sqle.getErrorCode() == 1406) {
+                throw new DaoException("Trop de caractères", Level.WARNING);
+            }
             LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
             throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
-        } finally {
+        }finally {
             if (stmt != null) {
                 stmt.close();
             }
@@ -134,10 +148,15 @@ public class DAOProspect {
             stmt.setInt(11, where);
 
             stmt.executeUpdate();
-        } catch (SQLException sqle) {
+        }catch (SQLException sqle) {
+            if (sqle.getErrorCode() == 1062){
+                throw new DaoException("La raison sociale doit être unique", Level.WARNING);
+            } else if (sqle.getErrorCode() == 1406) {
+                throw new DaoException("Trop de caractères", Level.WARNING);
+            }
             LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
             throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
-        } finally {
+        }finally {
             if (stmt != null) {
                 stmt.close();
             }
@@ -154,7 +173,7 @@ public class DAOProspect {
             stmt.setInt(1, where);
 
             stmt.executeUpdate();
-        } catch (SQLException sqle) {
+        }catch (SQLException sqle) {
             LOGGER.log(Level.SEVERE, "Problème de connexion " + sqle.getMessage());
             throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
         } finally {

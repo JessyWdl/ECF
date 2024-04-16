@@ -1,9 +1,6 @@
 package com.jessy.entity.entites;
 
 import com.jessy.entity.exception.MonException;
-
-import java.util.regex.Matcher;
-
 import static com.jessy.entity.utlitaire.Regex.*;
 
 public class Societe {
@@ -94,6 +91,8 @@ public class Societe {
     public void setTel(String Tel)throws MonException{
         if (Tel == null || Tel.isEmpty()){
             throw new MonException("Le numéro de téléphone ne peut être vide");
+        } else if (Tel.length() < 10 || Tel.length() > 15) {
+            throw new MonException("Le numéro de téléphone est trop court ou trop long");
         }
         this.Tel = Tel;
     }
