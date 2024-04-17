@@ -14,10 +14,10 @@ import static com.jessy.entity.logs.Logs.LOGGER;
  */
 public class DAOClient {
     /**
-     * Retrieves all Client records from the database.
+     * Recupère tout les clients depuis la table
      *
-     * @return An ArrayList containing all Client objects retrieved from the database.
-     * @throws Exception if an error occurs while accessing the database.
+     * @return Une ArrayList contenant tout les objets Client
+     * @throws Exception Si une erreur se produit dans la BDD
      */
     public static ArrayList<Client> findAll() throws Exception {
         Connection con = DatabaseConnection.con();

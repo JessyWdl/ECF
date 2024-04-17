@@ -10,24 +10,25 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * This class serves as the controller for displaying entities in a view.
+ * Cette classe est le controleur de la vue afficher qui a pour but de
+ * renvoyer un tableau contenant toute les informations d'une table
  */
 public class ControleurAfficher {
     /**
-     * Opens a view for displaying entities of a specified type (Client or Prospect).
+     * Appel de la vu Afficher qui renvois un tableau contenant les éléments de la table Client ou Prospect
      *
-     * @param Flag Indicates whether the entities to display are Clients or Prospects.
+     * @param Flag Indique si l'entités à afficher est un Clients ou un Prospects
      */
     public static void Afficher(String Flag){
             Afficher a = new Afficher(Flag);
             a.setVisible(true);
     }
     /**
-     * Retrieves all entities from the database of a specified type (Client or Prospect) to populate a table view.
+     * Récupère toute les entités de la BDD d'un type spécifique (Client ou Prospect) qui vont remplir le tableau
      *
-     * @param Flag Indicates whether to retrieve Clients or Prospects.
-     * @return An ArrayList containing all entities of the specified type.
-     * @throws Exception if an error occurs while accessing the database.
+     * @param Flag Indique si l'on récupère un Clients ou un Prospects
+     * @return Une ArrayList qui contient les entités d'un type spécifique
+     * @throws Exception Si une erreur se produit lors de l'accés à la BDD
      */
     public static ArrayList fillAfficher(String Flag) throws Exception {
         if (Objects.equals(Flag, "CLIENT")) {

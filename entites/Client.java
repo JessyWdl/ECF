@@ -3,8 +3,8 @@ package com.jessy.entity.entites;
 import com.jessy.entity.exception.MonException;
 
 public class Client extends Societe {
-    private double ChiffreAffaire;
-    private int NbEmployes;
+    private Double ChiffreAffaire;
+    private Integer NbEmployes;
 
     public Client(String RaisonSociale, String NumRue, String NomRue, String CodePostal,
                   String Ville, String Tel, String Email, Double ChiffreAffaire, int NbEmployes, String Commentaire) throws MonException {
@@ -25,7 +25,7 @@ public class Client extends Societe {
     }
 
     public void setChiffreAffaire(Double ChiffreAffaire) throws MonException {
-        if (ChiffreAffaire == null){
+        if (ChiffreAffaire == 0.0){
             throw new MonException("Chiffre d'affaire ne doit pas être vide");
         }
         else if (ChiffreAffaire < 200){
@@ -35,7 +35,7 @@ public class Client extends Societe {
     }
 
     public void setNbEmployes(Integer NbEmployes) throws MonException {
-        if (NbEmployes == null) {
+        if (NbEmployes == 0) {
             throw new MonException("Le Nombre d'employés ne doit pas être vide");
         }
         else if (NbEmployes < 0) {

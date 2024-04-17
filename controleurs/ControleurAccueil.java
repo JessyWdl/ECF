@@ -10,30 +10,30 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * This class serves as the controller for the home screen.
+ * Controlleur de l'accueil
  */
 public class ControleurAccueil{
     public static void NewAccueil() {
         /**
-         * Opens the home screen view.
+         * Initialisation de la vue
          */
         Accueil accueil = new Accueil();
         accueil.setVisible(true);
     }
     /**
-     * Retrieves all Clients from the database to populate a selection box.
+     * Récupère tout les clients de la BDD pour les ajouters à une combo box
      *
-     * @return An ArrayList containing all Clients.
-     * @throws Exception if an error occurs while accessing the database.
+     * @return Une ArrayList avec client
+     * @throws Exception Si jamais une erreur se produit au niveau de la BDD
      */
     public static ArrayList<Client> addClientInSelectSociete() throws Exception {
         return DAOClient.findAll();
     }
     /**
-     * Retrieves all Prospects from the database to populate a selection box.
+     * Récupère tout les prospect de la BDD pour les ajouters à une combo box
      *
-     * @return An ArrayList containing all Prospects.
-     * @throws Exception if an error occurs while accessing the database.
+     * @return Une ArrayList avec prospect
+     * @throws Exception Si jamais une erreur se produit au niveau de la BDD
      */
     public static ArrayList<Prospect> addProspectInSelectSociete() throws Exception {
         return DAOProspect.findAll();

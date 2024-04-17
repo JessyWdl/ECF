@@ -27,9 +27,9 @@ public class Afficher extends JDialog {
     private JTable table1;
 
     /**
-     * Constructs a new Afficher dialog with the specified flag indicating whether to display clients or prospects.
+     * Construire un nouveau dialogue vers afficher avec un Flag spécifique pour choisir d'afficher client ou prospect
      *
-     * @param Flag The flag indicating whether to display clients or prospects.
+     * @param Flag Le Flag qui indique si l'on travaille sur client ou prospect
      */
     public Afficher(String Flag){
         // Début du code et setup de l'UI

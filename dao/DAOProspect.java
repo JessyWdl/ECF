@@ -11,14 +11,14 @@ import java.util.logging.Level;
 import static com.jessy.entity.logs.Logs.LOGGER;
 
 /**
- * This class provides data access methods for interacting with the Prospect table in the database.
+ * Cette classe permet d'accéder au données de la table Prospect qui se trouve en BDD
  */
 public class DAOProspect {
     /**
-     * Retrieves all Prospect records from the database.
+     * Recupère tout les prospect depuis la table
      *
-     * @return An ArrayList containing all Prospect objects retrieved from the database.
-     * @throws Exception if an error occurs while accessing the database.
+     * @return Une ArrayList contenant tout les objets Prospect
+     * @throws Exception Si une erreur se produit dans la BDD
      */
     public static ArrayList<Prospect> findAll() throws Exception {
         Connection con = DatabaseConnection.con();

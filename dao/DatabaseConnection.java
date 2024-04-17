@@ -14,18 +14,18 @@ import java.util.logging.Level;
 import static com.jessy.entity.logs.Logs.LOGGER;
 
 /**
- * This class manages the database connection for the application.
- * It provides methods for establishing and closing the connection.
+ * Cette classe permet la gestion de la BDD dans l'application
+ * elle apporte des méthodes qui permette d'établir ou fermer la connection
  */
 public class DatabaseConnection {
     /**
-     * The static connection instance used for database operations.
+     * Une instance de connection static utilisé pour toute opération sur la BDD
      */
     public static Connection connection = null;
     /**
-     * Constructs a new DatabaseConnection instance and establishes the database connection.
+     * Construire une nouvelle instance de DatabaseConnection et établire la connection
      *
-     * @throws Exception if an error occurs while establishing the database connection.
+     * @throws Exception Si une erreur se produit au moment ou la connection s'établit
      */
     private DatabaseConnection() throws Exception {
         try {
@@ -48,7 +48,7 @@ public class DatabaseConnection {
     }
     /**
      * Returns l'instance de connections à la bdd
-     * Si la conneciton n'est pas déjà établis, en ouvre une nouvelle
+     * Si la connection n'est pas déjà établis, en ouvre une nouvelle
      *
      * @throws Exception Si une erreur apparait lors de l'instanciation de la connection
      */

@@ -20,11 +20,10 @@ import java.util.Objects;
  */
 public class ControleurFormulaire {
     public static String Type;
-    //Appel d'un nouveau form avec comme type CREER qui sera utilisé pour la détection de l'action du bouton "confirmer"
     /**
-     * Opens a form for creating a new entity (Client or Prospect).
+     * Appel d'un nouveau form avec comme type CREER qui sera utilisé pour la détection de l'action du bouton "confirmer"
      *
-     * @param Flag Indicates whether the entity is a Client or a Prospect.
+     * @param Flag Indique si l'entité est un Client ou un Prospect.
      */
     public static void ajouter(String Flag){
         Type = "CREER";
@@ -38,11 +37,11 @@ public class ControleurFormulaire {
     }
 
     /**
-     * Opens a form for modifying an existing entity (Client or Prospect).
+     * Appel d'un nouveau form avec comme type MODIFIER qui sera utilisé pour la détection de l'action du bouton "confirmer"
      *
-     * @param Flag  Indicates whether the entity is a Client or a Prospect.
-     * @param Value The value of the entity to be modified.
-     * @throws Exception if an error occurs while accessing the database.
+     * @param Flag Indique si l'entité est un Client ou un Prospect
+     * @param Value L'entité qui devra être modifié
+     * @throws Exception Si une erreur se produit niveau BDD
      */
     public static void modifier(String Flag, Object Value) throws Exception {
         Type = "MODIFIER";
@@ -59,11 +58,11 @@ public class ControleurFormulaire {
         }
     }
     /**
-     * Opens a form for deleting an existing entity (Client or Prospect).
+     * Appel d'un nouveau form avec comme type SUPPRIMER qui sera utilisé pour la détection de l'action du bouton "confirmer"
      *
-     * @param Flag  Indicates whether the entity is a Client or a Prospect.
-     * @param Value The value of the entity to be deleted.
-     * @throws Exception if an error occurs while accessing the database.
+     * @param Flag Indique si l'entité est un Client ou un Prospect
+     * @param Value L'entité qui devra être supprimé
+     * @throws Exception Si une erreur se produit niveau BDD
      */
     public static void supprimer(String Flag, Object Value) throws Exception {
         Type = "SUPPRIMER";
